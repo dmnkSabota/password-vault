@@ -6,27 +6,7 @@ A full-stack mobile application for secure credential management. The Android cl
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    A["Flutter Android
-    Dio + AuthInterceptor
-    Riverpod + go_router
-    Android Keystore · Biometric lock"]
-
-    B["Django REST API
-    JWT · AES-256-GCM encryption
-    Rate limiting · CORS
-    User-scoped queries"]
-
-    C["PostgreSQL
-    vault_credential
-    token_blacklist · auth_user"]
-
-    A -->|HTTPS · Bearer JWT| B
-    B -->|JSON response| A
-    B -->|SQL · ciphertext only| C
-    C -->|result rows| B
-```
+![System Architecture](architecture.svg)
 
 ---
 
