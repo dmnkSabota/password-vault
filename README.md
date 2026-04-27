@@ -7,8 +7,8 @@ A full-stack mobile application for secure credential management. The Android cl
 ## Architecture
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {'edgeLabelBackground': '#0d1117'}, 'flowchart': {'curve': 'linear', 'nodeSpacing': 50, 'rankSpacing': 70}}}%%
-flowchart LR
+%%{init: {'theme': 'dark', 'themeVariables': {'edgeLabelBackground': '#161b22'}, 'flowchart': {'curve': 'linear', 'nodeSpacing': 60, 'rankSpacing': 80}}}%%
+flowchart TD
     subgraph MOBILE["Flutter Android"]
         A1["Dio + AuthInterceptor"]
         A2["Riverpod + go_router"]
@@ -28,10 +28,8 @@ flowchart LR
         C3["auth_user"]
     end
 
-    MOBILE -->|"HTTPS · Bearer JWT"| BACKEND
-    BACKEND -->|"JSON response"| MOBILE
-    BACKEND -->|"SQL · ciphertext"| DATABASE
-    DATABASE -->|"result rows"| BACKEND
+    MOBILE <-->|"HTTPS · Bearer JWT / JSON response"| BACKEND
+    BACKEND <-->|"SQL ciphertext / result rows"| DATABASE
 ```
 
 ---
