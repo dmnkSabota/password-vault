@@ -6,7 +6,75 @@ A full-stack mobile application for secure credential management. The Android cl
 
 ## Architecture
 
-![System Architecture](architecture.svg)
+```mermaid
+%%{init: {"theme": "dark", "flowchart": {"curve": "linear", "nodeSpacing": 50, "rankSpacing": 60}}}%%
+flowchart TD
+    subgraph MOBILE["📱  Flutter Android — Presentation Tier"]
+        direction TB
+        NET["Dio + AuthInterceptor
+        ────────────────────────
+        JWT Bearer token on every request
+        Silent token refresh on HTTP 401"]
+
+        NAV["Riverpod + go_router
+        ────────────────────────
+        Reactive state management
+        Auth & lock guards on every route"]
+
+        LOCK["Android Keystore + local_auth
+        ────────────────────────
+        Hardware-backed JWT storage
+        Biometric unlock · Auto-lock 120 s
+        Clipboard cleared after 30 s"]
+    end
+
+    subgraph API["⚙️  Django REST API — Application Tier"]
+        direction TB
+        AUTH["JWT — simplejwt
+        ────────────────────────
+        Access token: 60 min lifetime
+        Refresh token: 7 days, rotated on every use
+        Blacklisted on logout"]
+
+        ENC["AES-256-GCM Encryption
+        ────────────────────────
+        Applied per credential field before DB write
+        Unique 12-byte nonce per encryption call
+        GCM authentication tag detects tampering"]
+
+        MISC["Rate Limiting + CORS + Data Isolation
+        ────────────────────────
+        5 req/min per IP on login & register
+        Whitelisted CORS origins only
+        All queries scoped to request.user"]
+    end
+
+    subgraph DB["🗄️  PostgreSQL — Data Tier"]
+        direction LR
+        T1["vault_credential
+        ─────────────────
+        username, password,
+        url, notes → ciphertext
+        title → plaintext"]
+
+        T2["token_blacklist
+        ─────────────────
+        Invalidated JTI tokens
+        Checked on every
+        token refresh request"]
+
+        T3["auth_user
+        ─────────────────
+        PBKDF2-SHA256
+        password hash
+        Django built-in model"]
+    end
+
+    MOBILE -->|"HTTPS · Bearer JWT"| API
+    API -->|"JSON response"| MOBILE
+    API -->|"SQL · ciphertext only"| DB
+    DB -->|"result rows"| API
+```
 
 ---
 
