@@ -7,33 +7,30 @@ A full-stack mobile application for secure credential management. The Android cl
 ## Architecture
 
 ```mermaid
-%%{init: {'theme': 'dark', 'flowchart': {'curve': 'basis', 'nodeSpacing': 40, 'rankSpacing': 80}}}%%
-flowchart TD
-    subgraph MOBILE["📱 Flutter Android"]
-        direction TB
-        A1(["Dio + AuthInterceptor"])
-        A2(["Riverpod + go_router"])
-        A3(["Android Keystore + local_auth"])
+%%{init: {'theme': 'dark', 'themeVariables': {'edgeLabelBackground': '#0d1117'}, 'flowchart': {'curve': 'linear', 'nodeSpacing': 50, 'rankSpacing': 70}}}%%
+flowchart LR
+    subgraph MOBILE["Flutter Android"]
+        A1["Dio + AuthInterceptor"]
+        A2["Riverpod + go_router"]
+        A3["Android Keystore + local_auth"]
     end
 
-    subgraph BACKEND["⚙️ Django REST API"]
-        direction TB
-        B1(["JWT via simplejwt"])
-        B2(["AES-256-GCM per field"])
-        B3(["Rate limiting · CORS"])
-        B4(["User-scoped ORM queries"])
+    subgraph BACKEND["Django REST API"]
+        B1["JWT via simplejwt"]
+        B2["AES-256-GCM per field"]
+        B3["Rate limiting · CORS"]
+        B4["User-scoped ORM queries"]
     end
 
-    subgraph DATABASE["🗄️ PostgreSQL"]
-        direction LR
-        C1(["vault_credential"])
-        C2(["token_blacklist"])
-        C3(["auth_user"])
+    subgraph DATABASE["PostgreSQL"]
+        C1["vault_credential"]
+        C2["token_blacklist"]
+        C3["auth_user"]
     end
 
     MOBILE -->|"HTTPS · Bearer JWT"| BACKEND
     BACKEND -->|"JSON response"| MOBILE
-    BACKEND -->|"SQL · ciphertext only"| DATABASE
+    BACKEND -->|"SQL · ciphertext"| DATABASE
     DATABASE -->|"result rows"| BACKEND
 ```
 
