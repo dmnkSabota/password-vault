@@ -7,11 +7,31 @@ A full-stack mobile application for secure credential management. The Android cl
 ## Architecture
 
 ```mermaid
-flowchart LR
-    A[Flutter Android] -->|HTTPS · Bearer JWT| B[Django REST API]
-    B -->|JSON response| A
-    B -->|SQL · ciphertext| C[PostgreSQL]
-    C -->|result rows| B
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1f2937', 'primaryTextColor': '#f9fafb', 'primaryBorderColor': '#374151', 'lineColor': '#6b7280', 'secondaryColor': '#111827', 'tertiaryColor': '#1f2937'}}}%%
+flowchart TD
+    subgraph client["  Flutter Android  "]
+        NET["Dio + AuthInterceptor"]
+        NAV["Riverpod + go_router"]
+        SEC["Android Keystore + local_auth"]
+    end
+
+    subgraph api["  Django REST API  "]
+        AUTH["JWT — simplejwt"]
+        ENC["AES-256-GCM per field"]
+        RATE["Rate limiting · CORS"]
+        ISO["User-scoped ORM queries"]
+    end
+
+    subgraph db["  PostgreSQL  "]
+        T1["vault_credential"]
+        T2["token_blacklist"]
+        T3["auth_user"]
+    end
+
+    client -->|"HTTPS · Bearer JWT"| api
+    api -->|"JSON response"| client
+    api -->|"SQL · ciphertext only"| db
+    db -->|"result rows"| api
 ```
 
 ---
@@ -38,34 +58,29 @@ flowchart LR
 
 ## Project Structure
 
-```
-password-vault/
-├── backend/
-│   ├── requirements.txt
-│   ├── .env.example
-│   ├── config/
-│   │   ├── settings.py          # Django configuration, JWT, CORS
-│   │   └── urls.py              # Root URL dispatcher
-│   └── apps/
-│       ├── authentication/      # Register, login, logout, token refresh, password change
-│       ├── vault/               # Category and Credential CRUD; AES-256-GCM encryption
-│       └── users/               # Profile retrieval and account deletion
-└── mobile/
-    ├── pubspec.yaml
-    ├── .env
-    └── lib/
-        ├── main.dart            # App entry point; auto-lock observer
-        ├── core/
-        │   ├── network/         # ApiClient (Dio), AuthInterceptor (JWT injection + silent refresh)
-        │   ├── router/          # go_router with authentication and lock guards
-        │   ├── biometrics/      # BiometricService (local_auth wrapper)
-        │   └── theme/           # Dark/light themes; AppColors BuildContext extension
-        └── features/
-            ├── auth/            # Login, Register, Lock screens; AuthNotifier
-            ├── vault/           # Vault list, Credential detail, Credential form
-            ├── generator/       # Password generator
-            └── settings/        # Theme, biometrics, account management
-```
+**Backend** (`backend/`)
+
+| Path | Purpose |
+|---|---|
+| `config/settings.py` | Django settings — database, JWT lifetimes, CORS, rate limiting |
+| `config/urls.py` | Root URL dispatcher |
+| `apps/authentication/` | Register, login, logout, token refresh, password change |
+| `apps/vault/` | Category and credential CRUD; AES-256-GCM encryption |
+| `apps/users/` | Profile retrieval and account deletion |
+
+**Mobile** (`mobile/lib/`)
+
+| Path | Purpose |
+|---|---|
+| `main.dart` | Entry point; app lifecycle observer for auto-lock |
+| `core/network/` | Dio client and AuthInterceptor — JWT injection and silent refresh |
+| `core/router/` | go_router configuration — auth and lock route guards |
+| `core/biometrics/` | BiometricService wrapping local_auth |
+| `core/theme/` | Light and dark themes |
+| `features/auth/` | Login, Register, Lock screens |
+| `features/vault/` | Vault list, credential detail, credential form |
+| `features/generator/` | Password generator |
+| `features/settings/` | Theme toggle, biometric toggle, account management |
 
 ---
 
