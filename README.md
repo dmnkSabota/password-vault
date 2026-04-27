@@ -7,30 +7,11 @@ A full-stack mobile application for secure credential management. The Android cl
 ## Architecture
 
 ```mermaid
-flowchart TD
-    subgraph Flutter["Flutter Android"]
-        NET[Dio + AuthInterceptor]
-        NAV[Riverpod + go_router]
-        SEC[Android Keystore + local_auth]
-    end
-
-    subgraph Django["Django REST API"]
-        AUTH[JWT via simplejwt]
-        ENC[AES-256-GCM field encryption]
-        RATE[Rate limiting · CORS]
-        ISO[User-scoped ORM queries]
-    end
-
-    subgraph Postgres["PostgreSQL"]
-        T1[vault_credential]
-        T2[token_blacklist]
-        T3[auth_user]
-    end
-
-    Flutter -->|HTTPS · Bearer JWT| Django
-    Django -->|JSON response| Flutter
-    Django -->|SQL · ciphertext only| Postgres
-    Postgres -->|result rows| Django
+flowchart LR
+    A[Flutter Android] -->|HTTPS · Bearer JWT| B[Django REST API]
+    B -->|JSON response| A
+    B -->|SQL · ciphertext| C[PostgreSQL]
+    C -->|result rows| B
 ```
 
 ---
