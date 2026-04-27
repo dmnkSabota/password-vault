@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 480" width="1500" height="480"
+     font-family="'Segoe UI', Arial, sans-serif">
+
+  <defs>
+    <marker id="arr-fwd" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#c9d1d9"/>
+    </marker>
+    <marker id="arr-ret" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#484f58"/>
+    </marker>
+  </defs>
+
+  <!-- ══════════════════════════════
+       PANEL 1 — Flutter
+  ══════════════════════════════ -->
+  <rect x="10" y="10" width="430" height="460" rx="8" fill="#161b22" stroke="#388bfd" stroke-width="2"/>
+
+  <!-- header -->
+  <rect x="10" y="10" width="430" height="72" rx="8" fill="#388bfd"/>
+  <rect x="10" y="56"  width="430" height="26" fill="#388bfd"/>
+  <text x="225" y="42" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">Flutter (Android)</text>
+  <text x="225" y="68" text-anchor="middle" font-size="10.5" fill="#cfe3ff" letter-spacing="1.5">PRESENTATION TIER</text>
+
+  <!-- section -->
+  <rect x="28" y="82" width="394" height="110" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="46" y="104" font-size="11" font-weight="700" fill="#79c0ff" letter-spacing="1.2">NETWORKING</text>
+  <text x="46" y="124" font-size="13.5" font-weight="600" fill="#e6edf3">Dio + AuthInterceptor</text>
+  <text x="46" y="144" font-size="12.5" fill="#8b949e">Attaches Bearer JWT to every request</text>
+  <text x="46" y="162" font-size="12.5" fill="#8b949e">Silent token refresh on HTTP 401</text>
+  <text x="46" y="180" font-size="12.5" fill="#8b949e">Interceptor runs before each API call</text>
+
+  <rect x="28" y="204" width="394" height="110" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="46" y="226" font-size="11" font-weight="700" fill="#79c0ff" letter-spacing="1.2">STATE &amp; NAVIGATION</text>
+  <text x="46" y="246" font-size="13.5" font-weight="600" fill="#e6edf3">Riverpod + go_router</text>
+  <text x="46" y="266" font-size="12.5" fill="#8b949e">Reactive state — no manual rebuilds</text>
+  <text x="46" y="284" font-size="12.5" fill="#8b949e">Auth and lock guards on every route</text>
+  <text x="46" y="302" font-size="12.5" fill="#8b949e">Redirects unauthenticated users</text>
+
+  <rect x="28" y="326" width="394" height="128" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="46" y="348" font-size="11" font-weight="700" fill="#79c0ff" letter-spacing="1.2">ON-DEVICE SECURITY</text>
+  <text x="46" y="368" font-size="13.5" font-weight="600" fill="#e6edf3">Keystore + local_auth</text>
+  <text x="46" y="388" font-size="12.5" fill="#8b949e">JWT in hardware-backed Android Keystore</text>
+  <text x="46" y="406" font-size="12.5" fill="#8b949e">Biometric unlock via BiometricPrompt</text>
+  <text x="46" y="424" font-size="12.5" fill="#8b949e">Vault locks after 120 s in background</text>
+  <text x="46" y="442" font-size="12.5" fill="#8b949e">Clipboard cleared after 30 s</text>
+
+  <!-- ══ Arrow 1 ══ -->
+  <!-- forward -->
+  <line x1="442" y1="200" x2="528" y2="200" stroke="#c9d1d9" stroke-width="2" marker-end="url(#arr-fwd)"/>
+  <text x="485" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="#e6edf3">HTTPS Request</text>
+  <text x="485" y="216" text-anchor="middle" font-size="11" fill="#8b949e">Bearer JWT token</text>
+  <!-- return -->
+  <line x1="528" y1="248" x2="442" y2="248" stroke="#484f58" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr-ret)"/>
+  <text x="485" y="268" text-anchor="middle" font-size="11" fill="#484f58">JSON response</text>
+
+  <!-- ══════════════════════════════
+       PANEL 2 — Django
+  ══════════════════════════════ -->
+  <rect x="530" y="10" width="460" height="460" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+
+  <rect x="530" y="10" width="460" height="72" rx="8" fill="#238636"/>
+  <rect x="530" y="56"  width="460" height="26" fill="#238636"/>
+  <text x="760" y="42" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">Django REST API</text>
+  <text x="760" y="68" text-anchor="middle" font-size="10.5" fill="#ccffd4" letter-spacing="1.5">APPLICATION TIER</text>
+
+  <rect x="548" y="82" width="424" height="110" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="566" y="104" font-size="11" font-weight="700" fill="#56d364" letter-spacing="1.2">AUTHENTICATION</text>
+  <text x="566" y="124" font-size="13.5" font-weight="600" fill="#e6edf3">JWT — simplejwt</text>
+  <text x="566" y="144" font-size="12.5" fill="#8b949e">Access token: 60 min lifetime</text>
+  <text x="566" y="162" font-size="12.5" fill="#8b949e">Refresh token: 7 days, rotated on every use</text>
+  <text x="566" y="180" font-size="12.5" fill="#8b949e">Refresh token blacklisted on logout</text>
+
+  <rect x="548" y="204" width="424" height="94" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="566" y="226" font-size="11" font-weight="700" fill="#56d364" letter-spacing="1.2">RATE LIMITING &amp; CORS</text>
+  <text x="566" y="246" font-size="13.5" font-weight="600" fill="#e6edf3">django-ratelimit + cors-headers</text>
+  <text x="566" y="266" font-size="12.5" fill="#8b949e">5 requests / min per IP on login &amp; register</text>
+  <text x="566" y="284" font-size="12.5" fill="#8b949e">Only whitelisted origins accepted</text>
+
+  <rect x="548" y="310" width="424" height="144" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="566" y="332" font-size="11" font-weight="700" fill="#56d364" letter-spacing="1.2">ENCRYPTION &amp; DATA ACCESS</text>
+  <text x="566" y="352" font-size="13.5" font-weight="600" fill="#e6edf3">AES-256-GCM per field</text>
+  <text x="566" y="372" font-size="12.5" fill="#8b949e">Each field encrypted before DB write</text>
+  <text x="566" y="390" font-size="12.5" fill="#8b949e">Unique 12-byte nonce per call</text>
+  <text x="566" y="408" font-size="12.5" fill="#8b949e">GCM tag detects tampering</text>
+  <text x="566" y="426" font-size="12.5" fill="#8b949e">All queries filtered by request.user</text>
+  <text x="566" y="444" font-size="12.5" fill="#8b949e">No cross-user data access possible</text>
+
+  <!-- ══ Arrow 2 ══ -->
+  <line x1="992" y1="200" x2="1068" y2="200" stroke="#c9d1d9" stroke-width="2" marker-end="url(#arr-fwd)"/>
+  <text x="1030" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="#e6edf3">SQL Query</text>
+  <text x="1030" y="216" text-anchor="middle" font-size="11" fill="#8b949e">ciphertext only</text>
+  <line x1="1068" y1="248" x2="992" y2="248" stroke="#484f58" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr-ret)"/>
+  <text x="1030" y="268" text-anchor="middle" font-size="11" fill="#484f58">result rows</text>
+
+  <!-- ══════════════════════════════
+       PANEL 3 — PostgreSQL
+  ══════════════════════════════ -->
+  <rect x="1070" y="10" width="420" height="460" rx="8" fill="#161b22" stroke="#e3b341" stroke-width="2"/>
+
+  <rect x="1070" y="10" width="420" height="72" rx="8" fill="#9e6a03"/>
+  <rect x="1070" y="56"   width="420" height="26" fill="#9e6a03"/>
+  <text x="1280" y="42" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">PostgreSQL</text>
+  <text x="1280" y="68" text-anchor="middle" font-size="10.5" fill="#ffe6a0" letter-spacing="1.5">DATA TIER</text>
+
+  <text x="1088" y="96" font-size="11" font-weight="700" fill="#e3b341" letter-spacing="1.2">STORED TABLES</text>
+
+  <rect x="1088" y="106" width="384" height="110" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="1106" y="128" font-size="13" font-weight="700" fill="#f0883e">vault_credential</text>
+  <text x="1106" y="148" font-size="12.5" fill="#8b949e">username, password, url, notes</text>
+  <text x="1106" y="166" font-size="12.5" fill="#8b949e">→ each stored as AES-256-GCM ciphertext</text>
+  <text x="1106" y="184" font-size="12.5" fill="#8b949e">title (plaintext) · user FK · category FK</text>
+  <text x="1106" y="202" font-size="12.5" fill="#8b949e">created_at · updated_at</text>
+
+  <rect x="1088" y="228" width="384" height="94" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="1106" y="250" font-size="13" font-weight="700" fill="#f0883e">token_blacklist</text>
+  <text x="1106" y="270" font-size="12.5" fill="#8b949e">Stores JTI of invalidated refresh tokens</text>
+  <text x="1106" y="288" font-size="12.5" fill="#8b949e">Checked on every token refresh request</text>
+  <text x="1106" y="306" font-size="12.5" fill="#8b949e">Prevents reuse after logout</text>
+
+  <rect x="1088" y="334" width="384" height="120" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="1106" y="356" font-size="13" font-weight="700" fill="#f0883e">auth_user</text>
+  <text x="1106" y="376" font-size="12.5" fill="#8b949e">Django built-in user model</text>
+  <text x="1106" y="394" font-size="12.5" fill="#8b949e">Password hashed with PBKDF2-SHA256</text>
+  <text x="1106" y="412" font-size="12.5" fill="#8b949e">Plaintext password never stored</text>
+  <text x="1106" y="430" font-size="12.5" fill="#8b949e">Linked to all credentials via FK</text>
+
+</svg>
