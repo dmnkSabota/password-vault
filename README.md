@@ -4,6 +4,44 @@ A full-stack mobile application for secure credential management. The Android cl
 
 ---
 
+## Features
+
+**Vault**
+- Store credentials (title, username, password, URL, notes) with per-field AES-256-GCM encryption
+- Organise credentials into custom categories with horizontal filter chips
+- Real-time full-text search across titles and usernames (local, no API round-trip)
+- Swipe-to-delete with confirmation dialog
+
+**Credential detail**
+- Password masked by default; tap the eye icon to reveal
+- One-tap copy for every field; clipboard auto-clears after 30 seconds
+- Direct browser launch via URL launcher
+
+**Password generator**
+- Configurable length (6–64 characters) and character sets (uppercase, lowercase, digits, symbols)
+- `Random.secure()` — OS-level cryptographically secure random source
+- Copy with automatic 30-second clipboard clear
+
+**Authentication**
+- Register and login with username and password
+- JWT access token (60 min) + refresh token (7 days) with rotation on every refresh
+- Silent token refresh via `AuthInterceptor` — no manual re-login required
+- Refresh tokens blacklisted on logout
+- Rate limiting: 5 requests/min per IP on register and login endpoints
+
+**Security**
+- Biometric unlock (fingerprint / face) using `local_auth`
+- Auto-lock after 120 seconds in the background (`WidgetsBindingObserver`)
+- JWT tokens stored in Android Keystore via `flutter_secure_storage`
+- Route guard prevents navigation to `/vault` without a valid token
+
+**Settings**
+- Toggle between dark, light, and system theme
+- Enable or disable biometric unlock
+- Change password, logout, and delete account
+
+---
+
 ## Architecture
 
 ```mermaid
@@ -168,10 +206,24 @@ API available at `http://localhost:8000/api/`.
 
 ### Mobile
 
+**1. Create the environment file**
+
+Create `mobile/.env` with the following content (the file is excluded from git and must be created manually):
+
+```
+API_BASE_URL=http://10.0.2.2:8000/api
+CLIPBOARD_CLEAR_DELAY=30
+AUTO_LOCK_TIMEOUT=120
+```
+
+> `10.0.2.2` is the Android emulator's alias for the host machine's `localhost`. Change this to your machine's LAN IP when running on a physical device.
+
+**2. Install dependencies and run**
+
 ```bash
 cd mobile
 flutter pub get
-flutter run            # emulator must be running; .env is pre-configured for 10.0.2.2
+flutter run            # emulator must be booted before this step
 ```
 
 ---
@@ -241,3 +293,9 @@ flutter run            # emulator must be running; .env is pre-configured for 10
 | `API_BASE_URL` | Backend API base URL |
 | `CLIPBOARD_CLEAR_DELAY` | Seconds before clipboard is cleared |
 | `AUTO_LOCK_TIMEOUT` | Seconds of background time before vault locks |
+
+---
+
+## Repository
+
+[https://github.com/dmnkSabota/password-vault](https://github.com/dmnkSabota/password-vault)
