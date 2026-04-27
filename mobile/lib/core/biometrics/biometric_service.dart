@@ -6,8 +6,6 @@ class BiometricService {
   BiometricService({LocalAuthentication? auth})
       : _auth = auth ?? LocalAuthentication();
 
-  /// Returns true if the device supports biometric authentication and has
-  /// enrolled credentials.
   Future<bool> isAvailable() async {
     try {
       final canCheck = await _auth.canCheckBiometrics;
@@ -20,14 +18,13 @@ class BiometricService {
     }
   }
 
-  /// Prompts the user for biometric authentication.
-  /// Returns true on success, false otherwise.
   Future<bool> authenticate() async {
     try {
       return await _auth.authenticate(
         localizedReason: 'Unlock your Password Vault',
       );
-    } catch (_) {
+    } catch (e) {
+      print('[BiometricService] authenticate error: $e');
       return false;
     }
   }
